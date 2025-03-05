@@ -18,10 +18,13 @@ exports.createProduct = async (req, res) => {
             productName,
             productQuantity,
             ProductPrice,
-            productId
+            productId,
+            userId : user.fullName
+
         })
 
         await newData.save()
+        
 
         res.status(200).json({message: 'product has been created successfully', data: newData})
     } catch (error) {
