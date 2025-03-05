@@ -1,4 +1,4 @@
-const userModel = require("../models/user");
+const userModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
 exports.authenticate = async (req, res, next) => {
@@ -31,8 +31,10 @@ exports.authenticate = async (req, res, next) => {
         message: "Session timed-out: Please login to continue",
       });
     }
+    console.log(error.message);
+    
     res.status(500).json({
-      message: "Internal Server Error" + error.message,
+      message: "Internal Server Error" 
     });
   }
 };
@@ -70,8 +72,15 @@ exports.adminAuth = async (req, res, next) => {
     req.user = decodedToken;
     next();
   } catch (error) {
+    if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(403).json({
+        message: "Session timed-out: Please login to continue",
+      });
+    }
+    console.log(error.message);
+    
     res.status(500).json({
-      message: "Internal Server Error" + error.message,
+      message: "Internal Server Error" 
     });
   }
 };
