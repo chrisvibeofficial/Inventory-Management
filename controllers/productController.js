@@ -18,7 +18,8 @@ exports.createProduct = async (req, res) => {
             productName,
             productQuantity,
             ProductPrice,
-            productId
+            productId,
+            userId : user.fullName
         })
 
         await newData.save()
