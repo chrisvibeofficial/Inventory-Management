@@ -18,8 +18,8 @@ exports.createProduct = async (req, res) => {
             productName,
             productQuantity,
             ProductPrice,
-            productId,
-            userId : user.fullName
+            // productId,
+            // userId : user.fullName
 
         })
 
