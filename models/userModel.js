@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSChema = new mongoose.Schema({
-    
+
     fullName: {
         type: String,
         require: true
@@ -23,11 +23,20 @@ const userSChema = new mongoose.Schema({
         enum: ["Male", "Female"]
     },
 
-    productId :[{
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+
+    productId: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref: "Products"
     }]
-   
 
 }, { timestamps: true })
 
