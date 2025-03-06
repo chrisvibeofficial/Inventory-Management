@@ -2,14 +2,15 @@ const { createProduct, getAllProducts, getOneProduct, updateProduct, deleteProdu
 
 const router = require('express').Router()
 
-router.post('/createProduct/:userId', createProduct)
+router.post('/createProduct', createProduct)
 
 router.get('/getAllProducts', getAllProducts)
 
-router.get('/getOneProduct/:userId', getOneProduct)
+router.get('/getOneProduct/:id', getOneProduct)
 
-router.put('/updateProduct/:userId', updateProduct)
+router.put('/updateProduct/:id', updateProduct)
 
-router.delete('/deleteProduct/:productId', deleteProduct)
+router.delete('/deleteProduct/:id', deleteProduct)
 
 module.exports = router
+
