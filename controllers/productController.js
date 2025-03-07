@@ -5,21 +5,15 @@ const userModel = require('../models/userModel')
 exports.createProduct = async (req, res) => {
     try {
         
-        const {userId} = req.params
 
         const {productName,productQuantity,ProductPrice} = req.body
 
-        const user = await userModel.findById(userId)
-        if(!user) {
-            return res.status(404).json({message: 'user not found'})
-        }
 
         const newData = new productModel({
             productName,
             productQuantity,
             ProductPrice,
-            // productId,
-            // userId : user.fullName
+        
 
         })
 
@@ -52,20 +46,16 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getOneProduct = async (req, res) => {
     try {
-        const {userId} =req.params
+        const {id} =req.params
 
-        const user = await userModel.findById(userId)
-        if(!user) {
-            return res.status(404).json({message: 'user not found'})
-        }
 
-        const userProduct = await productModel.findById(userId).populate('userId', ["fullName", "email", "gender"])
+        const userProduct = await productModel.findById(id)
 
         if(!userProduct) {
             return res.status(404).json({message: 'product not found'})
         }
 
-        res.status(200).json({message: `product for the user below` ,data: userProduct})
+        res.status(200).json({message: `kindly find the product below` ,data: userProduct})
 
     } catch (error) {
         console.log(error.message)
@@ -77,13 +67,14 @@ exports.getOneProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
-        const {userId} =req.params
+        const {id} = req.params
 
-        const user = await userModel.findById(userId)
-        if(!user) {
-            return res.status(404).json({message: 'user not found'})
+        const product = await productModel.findById(id)
+        if(!product) {
+            return res.status(404).json({message: 'product not found'})
  
         }
+
         const {productName,productQuantity,ProductPrice} = req.body
 
         const data = {
@@ -92,11 +83,11 @@ exports.updateProduct = async (req, res) => {
             ProductPrice
         }
 
-        await data.save()
+    
 
-        const updatedProduct = await productModel.findByIdAndUpdate('userId', data, {new: true})
+        const updatedProduct = await productModel.findByIdAndUpdate(id , data, {new: true})
 
-        res.status(200).json({message: `user has been updated successfully`, data: updatedProduct})
+        res.status(200).json({message: `product has been updated successfully`, data: updatedProduct})
 
 
     } catch (error) {
@@ -110,15 +101,16 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
     try {
-        const {productId } = req.params
+        const {id } = req.params
 
-        const product = await productModel.findById(productId).populate("userId", ["fullName", "email", "gender"])
+        const product = await productModel.findById(id)
+
         if(!product) {
             return res.status({message: 'product not found'})
         }
 
 
-        const deleteProduct = await productModel.findByIdAndDelete(productId)
+        const deleteProduct = await productModel.findByIdAndDelete(id)
 
         res.status(200).json({message: 'product has been deleted successfully', data: deleteProduct})
 
