@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSChema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
 
     fullName: {
         type: String,
@@ -17,13 +17,12 @@ const userSChema = new mongoose.Schema({
         type: String,
         required: true
     },
-
     gender: {
         type: String,
-        enum: ["Male", "Female"]
-    },
+        enum: ["male", "female"]
 
-    isAdmin: {
+    },
+        isAdmin: {
         type: Boolean,
         default: false
     },
@@ -40,6 +39,6 @@ const userSChema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-const userModel = mongoose.model("Users", userSChema);
+const userModel = mongoose.model("Users", userSchema);
 
 module.exports = userModel

@@ -2,24 +2,29 @@ const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { verify, reset } = require('../helper/html');
+const { validate } = require('../helper/user')
 const { send_mail } = require('../middlewares/nodemailer');
+const { registerUserSchema, loginSchema } = require('../validation/user');
+const joi = require('joi');
+
 
 
 exports.registerUser = async (req, res) => {
   try {
-    const { fullName, email, gender, password, confirmPassword } = req.body;
+    const validatedData = await validate(req.body, registerUserSchema)
+    const { fullName, email, gender, password } = validatedData;
 
-    if (!fullName || !email || !gender || !password || !confirmPassword) {
+    if (!fullName || !email || !gender || !password ) {
       return res.status(400).json({
         message: 'Input required for all field'
       })
     };
 
-    if (password !== confirmPassword) {
-      return res.status(400).json({
-        message: 'Password does not match'
-      })
-    };
+    // if (password !== confirmPassword) {
+    //   return res.status(400).json({
+    //     message: 'Password does not match'
+    //   })
+    // };
 
     const existingEmail = await userModel.find({ email: email.toLowerCase() });
 
@@ -146,7 +151,9 @@ exports.verifyUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const validatedData = await validate(req.body, loginSchema)
+
+    const { email, password } = validatedData;
 
     if (!email) {
       return res.status(400).json({

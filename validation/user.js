@@ -1,13 +1,15 @@
-import joi from 'joi';
+const joi = require('joi');
 
-export const registerUserSchema = joi.object().keys({
-    fullname: joi.string().min(3).max(20).required(),
-    email: joi.string().trim().email().required,
-    password: joi.string().trim().required,
-    gender: Joi.string().trim().valid('male, "female').required,
+exports.registerUserSchema = joi.object().keys({
+    fullName: joi.string().min(3).max(20).required(),
+    email: joi.string().trim().email().required(),
+    gender: joi.string().valid('male', 'female').required(), // Updated validation
 
+
+    password: joi.string().trim().required(),
+   
 });
-export const loginSchema = joi.object().keys({
-    email: joi.string().trim().min(6).max(8).email().required,
-    password: joi.string().trim().min(6).max(8).required,
+exports.loginSchema = joi.object().keys({
+    email: joi.string().trim().min(5).max(50).email().required(),
+    password: joi.string().trim().min(3).max(20).required(),
  });
